@@ -1,28 +1,159 @@
-<!DOCTYPE html>
-<html lang="es">
- <head>
-  <meta charset="UTF-8">
-  <title>html5-goku-en-javascript</title>
-  <link rel="stylesheet" href="game.css">
- </head>
- <body onkeydown="keyboard.listenKeydown(event);" onkeyup="keyboard.listenKeyup(event);" oncontextmenu="return false;" onload="gameLoop();">
-  <audio id="bso" preload><source src="Sonidos/FoxSynergy - Chaos Lily.mp3" type="audio/mpeg" />Tu navegador no es compatible con el elemento audio de html5. Use un navegador compatible.</audio>
-  <audio id="disparoCell" preload><source src="Sonidos/skweak2.ogg" type="audio/ogg" />Tu navegador no es compatible con el elemento audio de html5. Use un navegador compatible.</audio>
-  <audio id="disparoGoku" preload><source src="Sonidos/skweak3.ogg" type="audio/ogg" />Tu navegador no es compatible con el elemento audio de html5. Use un navegador compatible.</audio>
-  <audio id="heridoCell" preload><source src="Sonidos/cut_grunt2.wav" type="audio/wav" />Tu navegador no es compatible con el elemento audio de html5. Use un navegador compatible.</audio>
-  <audio id="heridoGoku" preload><source src="Sonidos/gruntsound.wav" type="audio/wav" />Tu navegador no es compatible con el elemento audio de html5. Use un navegador compatible.</audio>
-  <canvas id="gameScreen">Tu navegador no es compatible con el elemento canvas de html5. Use un navegador compatible.</canvas>
- </body>
- <script src="stats.min.js"></script>
- <script src="game.js"></script>
- <script type="text/javascript">
-		// Google analytics
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		ga('create', 'UA-45433616-1', 'binary-sequence.github.io');
-		ga('send', 'pageview');
- </script>
-</html>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Juego Dragon Ball</title>
+</head>
+
+<body>
+
+    <style type="text/css">
+        #world {
+            background-image: url(Img/namek.jpg);
+            width: 900px;
+            height: 700px;
+            background-repeat: no-repeat;
+            background-size: 100%;
+
+        }
+
+        .player {
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+            background-image: url(img/goku.png);
+            background-size: contain;
+            position: absolute;
+            background-repeat: no-repeat;
+
+        }
+
+        .cell {
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+            background-image: url(img/minicell.png);
+            background-size: contain;
+            position: absolute;
+            left: 800px;
+            top: 250px;
+            background-repeat: no-repeat;
+        }
+
+        #cuadrodevidagoku {
+            height: 60px;
+            width: 250px;
+            display: inline-block;
+            background-image: url(img/cuadrovidagoku.png);
+            background-size: contain;
+            position: absolute;
+            left: 9px;
+            top: 8px;
+            background-repeat: no-repeat;
+        }
+
+        #barradevidagoku {
+            height: 60px;
+            width: 225px;
+            display: inline-block;
+            background-image: url(img/barravidagoku.png);
+            background-size: contain;
+            position: absolute;
+            left: 30px;
+            top: 12px;
+            background-repeat: no-repeat;
+        }
+
+        #cuadrodevidacell {
+            height: 60px;
+            width: 250px;
+            display: inline-block;
+            background-image: url(img/cuadrovidaminicell.png);
+            background-size: contain;
+            position: absolute;
+            left: 658px;
+            top: 8px;
+            background-repeat: no-repeat;
+        }
+
+        #barradevidadecell {
+            height: 31px;
+            width: 251px;
+            display: inline-block;
+            background-image: url(img/barravidaminicell.png);
+            background-size: contain;
+            position: absolute;
+            left: 665px;
+            top: 12px;
+            background-repeat: no-repeat;
+        }
+    </style>
+    <div id="world">
+        <div id="players">
+            <div class="player"></div>
+        </div>
+                
+
+        <div class="cell"></div>
+        <div id="cuadrodevidagoku"></div>
+        <div id="barradevidagoku"></div>
+    </div>
+    <div id="cuadrodevidacell"></div>
+    <div id="barradevidadecell"></div>
+    </div>
+
+    <script type="text/javascript">
+
+        var player = {
+            left: 100,
+            top: 100
+        }
+
+        var enemies = [
+            { left: 350, top: 200 },
+            { left: 450, top: 250 },
+            { left: 550, top: 120 },
+            { left: 250, top: 320 }
+        ]
+        function drawPlayer() {
+            content = "<div class='player' style='left: "+player.left+"px; top: "+player.top+"px;'></div>";
+            document.getElementById("players").innerHTML = content;
+        }
+        drawPlayer();
+
+        document.onkeydown = function (e) {
+            console.log(e);
+            if (e.keyCode == 37) {
+                if (player.left > 0) {
+                    player.left -= 10;
+
+                    //console.log("izquierda");
+                }
+            }
+            if (e.keyCode == 39) {
+                if (player.left < 1180) {
+                    player.left += 10;
+
+                    //console.log("derecha");
+                }
+            }
+            if (e.keyCode == 38) {
+                if (player.top > 0) {
+                    player.top -= 10;
+
+
+                    //console.log("arriba");
+                }
+            }
+            if (e.keyCode == 40) {
+                if (player.top < 510) {
+                    player.top += 10;
+
+                    //console.log("abajo");
+                }
+            }
+            drawPlayer();
+        }
+    </script>
